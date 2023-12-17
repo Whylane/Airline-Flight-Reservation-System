@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth', 'role:superadmin'], 'prefix' => 'superadm
     // Route::post('store-flight', [SuperadminFlightController::class, 'store']);
     // Route::get('edit-flight/{id}', [SuperadminFlightController::class, 'edit']);
     // Route::put('update-flight/{id}', [SuperadminFlightController::class, 'update']);
-    Route::get('report', [SuperadminFlightController::class, 'report'])->name('report.index');
+    Route::get('report', [SuperadminFlightController::class, 'report'])->name('superadmin.report.index');
     Route::post('approve-flight/{id}', [SuperadminFlightController::class, 'approveFlight']);
     Route::post('reject-flight/{id}', [SuperadminFlightController::class, 'rejectFlight']);
 
@@ -95,7 +95,7 @@ Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin'], func
     Route::post('store-flight', [AdminFlightController::class, 'store']);
     Route::get('edit-flight/{id}', [AdminFlightController::class, 'edit']);
     Route::put('update-flight/{id}', [AdminFlightController::class, 'update']);
-    Route::get('report', [AdminFlightController::class, 'report'])->name('report.index');
+    Route::get('report', [AdminFlightController::class, 'report'])->name('admin.report.index');
 
     // Passenger List Routes
     Route::get('passenger', [AdminPassengerController::class, 'index']);

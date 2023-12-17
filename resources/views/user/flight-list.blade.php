@@ -76,7 +76,7 @@
 
                                 <td>{{ $result->airline->airline }}
                                 </td>
-                                <td> {{ $result->airline->flight_number }}
+                                <td> {{ substr($result->flight_number, 0, 2) }} {{ substr($result->flight_number, 2) }}
                                 </td>
                                 <td>{{ Carbon\Carbon::parse($result->departure_time)->format('H:i') }}</td>
                                 <td>{{ Carbon\Carbon::parse($result->arrival_time)->format('H:i') }}</td>
@@ -143,7 +143,7 @@
                         <input name="departure_date" type="hidden" value="{{ $result->departure_date }}">
                         <input name="arrival_date" type="hidden" value="{{ $result->arrival_date }}">
                         <input name="duration" type="hidden" value="{{ $result->duration }}">
-                        <input name="price" type="hidden" value="{{ $result->price }}">
+                        <input name="return_price" type="hidden" value="{{ $result->return_price }}">
                         <input name="adultPassengers" type="hidden" value="{{ $adult }}">
                         <input name="childPassengers" type="hidden" value="{{ $child }}">
                         <input name="infantPassengers" type="hidden" value="{{ $infant }}">
@@ -154,12 +154,12 @@
                         <tr>
                             <td>{{ $result->airline->airline }}
                             </td>
-                            <td> {{ $result->airline->flight_number }}
+                            <td> {{ substr($result->return_flight_number, 0, 2) }} {{ substr($result->return_flight_number, 2) }}
                             </td>
                             <td>{{ Carbon\Carbon::parse($result->departure_time_return)->format('H:i') }}</td>
                             <td>{{ Carbon\Carbon::parse($result->arrival_time_return)->format('H:i') }}</td>
                             <td>{{ $result->duration }}</td>
-                            <td>₱{{ $result->price }}</td>
+                            <td>₱{{ $result->return_price }}</td>
                             <td>
                                 {{-- <input name="selected_departure" id="selected_departure_{{ $result->id }}"
                                     class="departure-input" type="text" value=""> --}}
@@ -197,6 +197,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const checkboxes = document.querySelectorAll('[name="selected_flight"]');
+        const returnCheckboxes = document.querySelectorAll('[name="selected_return"]');
 
         checkboxes.forEach(function (checkbox) {
             checkbox.addEventListener('change', function () {
@@ -211,15 +212,12 @@
             });
         });
 
-
         if (!window.location.href.includes('passenger-details')) {
-        console.log("not passenger details")
-        // Clear the localStorage
-        localStorage.removeItem('currentStep');
-        // Set the initial step to 1
-        currentStep = 1;
-    }
-
+            console.log("not passenger details")
+            // Clear the localStorage
+            localStorage.removeItem('currentStep');
+            // Set the initial step to 1
+            currentStep = 1;
+        }
     });
-
 </script>

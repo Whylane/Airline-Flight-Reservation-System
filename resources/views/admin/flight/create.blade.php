@@ -104,6 +104,13 @@
                         <label for="arrival_time_return">Arrival Time (Return)</label>
                     </div>
                 </div>
+
+                <div class="col mb-3">
+                    <div class="form-floating">
+                        <input type="number" class="form-control" name="return_price" placeholder=" ">
+                        <label for="return_price">Price (Return)</label>
+                    </div>
+                </div>
             </div>
 
             <div class="form-floating mb-3">
@@ -111,7 +118,7 @@
                 <label for="price">Price</label>
             </div>
 
-            <div class="form-floating mb-3">
+            {{-- <div class="form-floating mb-3">
                 <select class="form-select" name="airline_id" required>
                     <option value="" disabled selected>Choose Flight Number</option>
                     @foreach ($airlines as $airline)
@@ -119,7 +126,7 @@
                     @endforeach
                 </select>
                 <label>Flight Number</label>
-            </div>
+            </div> --}}
             
 
             <div class="mt-4 d-flex justify-content-end">

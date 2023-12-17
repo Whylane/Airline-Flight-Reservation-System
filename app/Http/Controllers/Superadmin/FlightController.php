@@ -48,7 +48,56 @@ class FlightController extends Controller
         return redirect('superadmin/flight-lists');
     }
 
+  public function report(Request $request)
+    {
+        $departureDate = $request->input('departure_date');
+        $returnDate = $request->input('departure_date_return');
+        $flightType = $request->input('flight_type');
 
+        $departureDate = $departureDate ? Carbon::parse($departureDate)->format('Y-m-d') : now()->format('Y-m-d');
+        $returnDate = $returnDate ? Carbon::parse($returnDate)->format('Y-m-d') : now()->format('Y-m-d');
+
+        $flightsQuery = Flight::where('departure_date', '=', $departureDate);
+
+        if ($flightType !== 'all') {
+            $flightsQuery->where('flight_type', $flightType);
+
+            if ($flightType === 'round_trip') {
+                $flightsQuery->where('departure_date_return', '=', $returnDate);
+            }
+        }
+
+        $flights = $flightsQuery->get();
+
+        // If no flight type is selected or 'All' is selected, retrieve all flights
+        if (empty($flightType) || $flightType === 'all') {
+            $flights = Flight::all();  // No need for date conditions when 'All' is selected
+        }
+
+        $allFlights = Flight::all();
+        $totalPriceAll = $allFlights->sum('price');
+        $totalPriceFiltered = $flights->sum('price');
+
+        $dateString = $request->departure_date;
+        try {
+            $date = Carbon::createFromFormat('Y-m-d', $dateString);
+        } catch (\Exception $e) {
+            $date = now();
+        }
+
+        $formattedInputDate = $date->format('M d Y, D') . ".";
+
+        $fullyBookedPassengers = Booking::whereIn('id', $flights->pluck('id'))
+            ->where('status', '1')
+            ->when($flightType !== 'all', function ($query) use ($formattedInputDate) {
+                $query->where('departure_date', $formattedInputDate);
+            })
+            ->get();
+
+        $totalTicketAmount = $this->calculateTotalTicketAmount($fullyBookedPassengers);
+
+        return view('superadmin.report.index', compact('flights', 'allFlights', 'totalPriceAll', 'totalPriceFiltered', 'fullyBookedPassengers', 'totalTicketAmount'));
+    }
 
 
 
@@ -367,58 +416,6 @@ class FlightController extends Controller
         }
 
         return trim($formattedDuration);
-    }
-
-
-    public function report(Request $request)
-    {
-        $departureDate = $request->input('departure_date');
-        $returnDate = $request->input('departure_date_return');
-        $flightType = $request->input('flight_type');
-
-        $departureDate = $departureDate ? Carbon::parse($departureDate)->format('Y-m-d') : now()->format('Y-m-d');
-        $returnDate = $returnDate ? Carbon::parse($returnDate)->format('Y-m-d') : now()->format('Y-m-d');
-
-        $flightsQuery = Flight::where('departure_date', '=', $departureDate);
-
-        if ($flightType !== 'all') {
-            $flightsQuery->where('flight_type', $flightType);
-
-            if ($flightType === 'round_trip') {
-                $flightsQuery->where('departure_date_return', '=', $returnDate);
-            }
-        }
-
-        $flights = $flightsQuery->get();
-
-        // If no flight type is selected or 'All' is selected, retrieve all flights
-        if (empty($flightType) || $flightType === 'all') {
-            $flights = Flight::all();  // No need for date conditions when 'All' is selected
-        }
-
-        $allFlights = Flight::all();
-        $totalPriceAll = $allFlights->sum('price');
-        $totalPriceFiltered = $flights->sum('price');
-
-        $dateString = $request->departure_date;
-        try {
-            $date = Carbon::createFromFormat('Y-m-d', $dateString);
-        } catch (\Exception $e) {
-            $date = now();
-        }
-
-        $formattedInputDate = $date->format('M d Y, D') . ".";
-
-        $fullyBookedPassengers = Booking::whereIn('id', $flights->pluck('id'))
-            ->where('status', '1')
-            ->when($flightType !== 'all', function ($query) use ($formattedInputDate) {
-                $query->where('departure_date', $formattedInputDate);
-            })
-            ->get();
-
-        $totalTicketAmount = $this->calculateTotalTicketAmount($fullyBookedPassengers);
-
-        return view('superadmin.report.index', compact('flights', 'allFlights', 'totalPriceAll', 'totalPriceFiltered', 'fullyBookedPassengers', 'totalTicketAmount'));
     }
 
 

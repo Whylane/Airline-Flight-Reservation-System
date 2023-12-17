@@ -1,10 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <span class="brand-letter brand-letter-a">A</span>
-            <span class="brand-letter brand-letter-f">F</span>
-            <span class="brand-letter brand-letter-r">R</span>
-            <span class="brand-letter brand-letter-s">S</span>
+            <div class="sidebar-brand-icon">
+                <img src="{{ asset('assets/img/psu logo.png') }}" alt="Logo" height="40">
+            </div>
+            <div class="brand-text">PSU ACC</div>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

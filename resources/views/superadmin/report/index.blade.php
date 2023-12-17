@@ -12,7 +12,7 @@
     </div>
 
     <!-- Filter Form -->
-    <form action="{{ route('report.index') }}" method="get" id="filterForm">
+    <form action="{{ route('superadmin.report.index') }}" method="get" id="filterForm">
         <div class="form-group" id="departureDateGroup">
             <label for="departure_date">Filter by Departure Date:</label>
             <input type="date" class="form-control" name="departure_date" id="departure_date"

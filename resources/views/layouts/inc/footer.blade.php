@@ -15,17 +15,18 @@
   <style>
     .footer-user {
         position: fixed;
+        margin-top: 10rem;
         bottom: 0;
         left: 0;
-        right: 0 ;
+        right: 0;
     }
 
     .footer-user a {
-        text-decoration: none; /* Remove underline */
-        color: white; /* Default text color */
+        text-decoration: none;
+        color: white;
     }
 
     .footer-user a:hover {
-        color: black !important; /* Change the color on hover */
+        color: black !important;
     }
   </style>

@@ -1,11 +1,11 @@
 body {
     background-image: url("/assets/img/Hundred Islands.jpg");
     background-repeat: no-repeat;
-    background-size: cover; /* Ensure the background covers the entire container */
-    background-position: 100% 100%;
-    margin: 0;
-    padding: 0;
-    height: 100%;
+    background-size: cover;
+    background-position: 100%;
+    /* margin: 0;
+    padding: 0; */
+    /* height: 100%; */
     min-height: 100vh;
 }
 .navbar {
@@ -13,37 +13,28 @@ body {
 }
 
 .navbar-brand {
-    margin-right: 50px;
+    margin-right: 10px;
     margin-left: 30px;
     font-family: 'Lato', sans-serif;
     font-weight: bolder;
-    text-shadow: 2px 2px 4px rgba(121, 109, 109, 0.5);
-}
-
-.brand-letter {
-    font-size:larger;
-}
-
-.brand-letter-a { 
-    color: #FAFF00;
-}
-
-.brand-letter-f {
-    color: #FFFFFF;
-}
-
-.brand-letter-r {
-    color: #FAFF00;
-}
-
-.brand-letter-s {  
-    color: #FFFFFF;
+    display: flex;
+    align-items: center;
 }
 
 .navbar .navbar-nav .nav-link {
     color: white;
     margin-right: 30px;
     margin-left: 30px;
+}
+
+.sidebar-brand-icon {
+    display: inline-block;
+}
+
+.brand-text {
+    display: inline-block;
+    margin-left: 10px;  /* Adjust as needed */
+    vertical-align: middle;
 }
 
 .custom-button {
@@ -123,3 +114,23 @@ input[type="number"].small-input::-webkit-outer-spin-button {
 input[type="number"].small-input {
     pointer-events: none;
 }
+
+/* .brand-letter {
+    font-size:larger;
+}
+
+.brand-letter-a { 
+    color: #FAFF00;
+}
+
+.brand-letter-f {
+    color: #FFFFFF;
+}
+
+.brand-letter-r {
+    color: #FAFF00;
+}
+
+.brand-letter-s {  
+    color: #FFFFFF;
+} */

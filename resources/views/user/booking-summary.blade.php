@@ -66,8 +66,7 @@
                     </div>
                     @foreach ($selected_departure as $selected_dep)
                     <div>
-                        Flight No: {{ $selected_dep->airline->flight_number }}
-                        {{-- {{ $originAirport }} --}}
+                        Flight Number: <span>{{ $selected_dep->flight_number }}</span>
                     </div>
                     <div class="container">
                         <div class="row">
@@ -163,7 +162,7 @@
                         </span>
                     </div>
                     <div>
-                        Flight No: <span>{{ $flight->airline->flight_number }}</span>
+                        Flight Number: <span>{{ $flight->return_flight_number }}</span>
                     </div>
                     <div class="container">
                         <div class="row">
@@ -246,7 +245,7 @@
                         </div>
                         <div class="col-md-4">
                             @foreach ($selected_return as $item)
-                            <h3> PHP {{ $item->price }}.00</h3>
+                            <h3> PHP {{ $item->return_price }}.00</h3>
                             @endforeach
                         </div>
                     </div>
@@ -280,7 +279,7 @@
                         $total = $item->price + $selected_dep->price
                         @endphp --}}
                         {{-- <h3> PHP {{ $total }}.00</h3> --}}
-                        <h3 class="font-bold"> PHP <span id="grandtotal"></span>.00</h3>
+                        <h3 class="font-bold"> PHP <span id="grandtotal"></span></h3>
                     </div>
                 </div>
             </div>
@@ -367,7 +366,7 @@ $initialTotalAmount = 0;
         totalAmountElement.textContent = selectedValue.toFixed(2); // Display the value with two decimal places
 
         // const totalP = {{ $item->price ?? 0  + $selected_dep->price  }};
-        const totalP =  {{ $item->price ?? 0 }} +  {{ $selected_dep->price }} ;
+        const totalP =  {{ $item->price ?? 0 + $selected_dep->price }}  +  {{ $item->return_price ?? 0 }} ;
         console.log(totalP);
 
         // Add the new selected value to the total amount
@@ -431,12 +430,12 @@ $initialTotalAmount = 0;
         var row = seat.charAt(0);
         var column = parseInt(seat.substring(1));
 
-        if ((row === 'A' && column >= 1 && column <= 5)) {
+        if ((row === 'A' && column >= 1 && column <= 6)) {
             return 390;
         } else if(row === 'B' && column >= 1 && column <= 6) {
             return 245;
-        }  else if (row === 'C' && column >= 1 && column <= 5 ||
-            row === 'D' && column >= 1 && column <= 5) {
+        }  else if (row === 'C' && column >= 1 && column <= 6 ||
+            row === 'D' && column >= 1 && column <= 6) {
             return 200;
         } else {
             return 0; // Default value if seat does not match any criteria
@@ -466,7 +465,7 @@ $initialTotalAmount = 0;
     // Function to update the grand total
     function updateGrandTotal() {
         // const totalP = {{ $item->price ?? 0  + $selected_dep->price  }};
-        const totalP =  {{ $item->price ?? 0 }} +  {{ $selected_dep->price }} ;
+        const totalP =  {{ $item->price ?? 0  + $selected_dep->price}} +  {{ $item->return_price ?? 0 }} ;
         const gtotal = totalAmount + selectedSeatsValue + totalP;
 
 
@@ -476,9 +475,9 @@ $initialTotalAmount = 0;
 
 
     // const fback = {{ $item->price ?? 0  + $selected_dep->price  }}
-    const fback = {{ $item->price ?? 0 }} +  {{ $selected_dep->price }} ;
+    const fback = {{ $item->price ?? 0  + $selected_dep->price}} +  {{ $item->return_price ?? 0 }} ;
         const fbackB= 0
-        document.getElementById("grandtotal").textContent = fback;
+        document.getElementById("grandtotal").textContent = fback.toFixed(2);
         document.getElementById("baggageTotal").textContent = fbackB;
 
     // Get the checkbox and the button

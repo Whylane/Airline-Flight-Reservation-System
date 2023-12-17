@@ -49,7 +49,7 @@ class BookingController extends Controller
 
 
       for ($i = 1; $i <= $numberofPassengers; $i++) {
-        $specialAssistance[]  = $request->input("special_asssitance{$i}")[0] ?? null;
+        $specialAssistance[] = $request->input("special_assistance{$i}")[0] ?? null;
         $adds_on_baggage[]  = $request->input("adds_on_baggage{$i}")[0] ?? null;
 
         $ticket_id[] = $this->generateTicketID();
@@ -61,18 +61,18 @@ class BookingController extends Controller
             $seat = $request->input('seat');
         }
     }
-
-        $totalSeats = DB::table('airlines')->where('airline', $request->input('airline'))->pluck('total_seats')->first();
+        $totalSeats = DB::table('airlines')->where('id', $request->input('airline_id'))->pluck('total_seats')->first();
         $availableSeats = max(0, $totalSeats - $numberofPassengers);
-        DB::table('airlines')->where('airline', $request->input('airline'))->update(['total_seats' => $availableSeats]);
+        DB::table('airlines')->where('id', $request->input('airline_id'))->update(['total_seats' => $availableSeats]);
         // Fetch the 'flight_number' from the selected airline
-        $airline = Airline::where('airline', $request->input('airline'))->first();
+        $airline = Airline::where('id', $request->input('airline_id'))->first();
         $flightNumber = $airline ? $airline->flight_number : null;
  
         $booking = Booking::create([
             'user_id' => auth()->user()->id,
             'flight_type' => $request->input('flight_type'),
             'airline' => $request->input('airline'),
+            'airline_id' => $request->input('airline_id'),
             'flight_number' => $flightNumber, 
             'departure_date' => $request->input('departure_date'),
             'arrival_date' => $request->input('arrival_date'),
@@ -96,8 +96,11 @@ class BookingController extends Controller
             'contact_number' => implode('|',$contact_number),
             'address' => implode('|',$address),
             'date_of_birth' => implode('|',$date_of_birth),
-            'pwd' => !empty($pwd) ? implode('|', $pwd) : null,
-            'special_asssitance' =>  implode('|',$specialAssistance),
+            // 'pwd' => !empty($pwd) ? implode('|', $pwd) : null,
+            // 'pwd' => !is_null($pwd) && in_array('yes', $pwd) ? 'yes' : 'no',
+            'pwd' => is_array($pwd) && in_array('yes', $pwd) ? 'yes' : 'no',
+            'special_assistance' =>  implode('|',$specialAssistance),
+            // 'special_assistance' => in_array('yes', $specialAssistance) ? 'yes' : 'no',
             'special_assistance_type' => !empty($special_assistance_type) ? implode('|', $special_assistance_type) : null,
             'adds_on_baggage' =>   implode('|',$adds_on_baggage),
             'seatClass' => $request->input('seatClass'),

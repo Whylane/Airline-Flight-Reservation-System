@@ -13,6 +13,7 @@ class Booking extends Model
         'user_id',
         'flight_type',
         'airline',
+        'airline_id',
         'flight_number',
         'departure_date',
         'arrival_date',
@@ -45,7 +46,6 @@ class Booking extends Model
         'ticket_id',
         'booking_id',
         'special_assistance_type',
-        'airline_id',
     ];
 
     public function user()

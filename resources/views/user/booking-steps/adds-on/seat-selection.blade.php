@@ -59,6 +59,24 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var checkboxes = document.querySelectorAll('#seat_card-{{ $i }} .seats input[type="checkbox"]');
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                if (!checkbox.checked) {
+                    return; // Ignore the event if the checkbox is being unchecked
+                }
+                checkboxes.forEach(function (otherCheckbox) {
+                    if (otherCheckbox !== checkbox && otherCheckbox.checked && !otherCheckbox.hasAttribute('disabled')) {
+                        otherCheckbox.checked = false;
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 <style>
     .bg-yellow {
         background: #FAFF00;

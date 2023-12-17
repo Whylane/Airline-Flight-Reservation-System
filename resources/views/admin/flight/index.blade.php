@@ -53,7 +53,14 @@
                             <h6>Return Arrival Time: </h6>{{ $flight->arrival_time_return ? date('h:i A', strtotime($flight->arrival_time_return)) : '' }}
                         @endif
                         </td>
-                        <td>&#8369; {{ $flight->price }}</td>
+                        <td> 
+
+                            <h6>Price: </h6>  &#8369; {{ $flight->price }}
+                          
+                            @if ($flight->flight_type === 'round_trip')
+                                <h6>Price (return): </h6>&#8369; {{ $flight->return_price}}
+                            @endif
+                        </td>                        
                         <td>
                             <a href="{{ url('admin/edit-flight/'.$flight->id) }}" class="btn btn-success btn-sm">Update</a>
                         </td>

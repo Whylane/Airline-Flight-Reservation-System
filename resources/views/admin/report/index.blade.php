@@ -5,7 +5,7 @@
 <div class="container-fluid pt-4 px-4">
     <div class="bg-secondary rounded p-4">
     <!-- Filter Form -->
-    <form action="{{ route('report.index') }}" method="get" id="filterForm">
+    <form action="{{ route('admin.report.index') }}" method="get" id="filterForm">
         <div class="form-group" id="departureDateGroup">
             <label for="departure_date">Filter by Departure Date:</label>
             <input type="date" class="form-control mt-2 mb-2" name="departure_date" id="departure_date"

@@ -114,7 +114,7 @@
                 <label for="price">Price</label>
             </div>
 
-            <div class="form-floating mb-3">
+            {{-- <div class="form-floating mb-3">
                 <select class="form-select" name="airline_id" required>
                     <option value="" disabled>Choose Flight Number</option>
                     @foreach ($airlines as $airline)
@@ -123,7 +123,7 @@
                     </option>
                     @endforeach
                 </select>
-                <label>Flight Number</label>
+                <label>Flight Number</label> --}}
 
             <div class="mt-4 d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">Submit</button>

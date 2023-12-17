@@ -40,6 +40,10 @@ class FlightController extends Controller
 
     public function store(Request $request)
     {
+
+        // Retrieve the superadmin's assigned airline
+        $superadminAssignedAirline = auth()->user()->airlines()->first();
+
         // Define validation rules
         $rules = [
             'flight_type' => 'required',
@@ -54,22 +58,24 @@ class FlightController extends Controller
             'departure_time_return' => 'nullable|date_format:H:i',
             'arrival_time_return' => 'nullable|date_format:H:i',
             'price' => 'required|numeric',
-            'airline_id' => 'required',
-            // 'flight_number' => 'nullable',
-            // 'return_flight_number' => 'nullable',
+            'return_price' => 'nullable|numeric',
+            // 'airline_id' => 'nullable',
+            'flight_number' => 'nullable',
+            'return_flight_number' => 'nullable',
         ];
 
         // Apply the validation rules to the request data
         $request->validate($rules);
+        
+        // Function to generate a unique flight number
+        function generateUniqueFlightNumber($airline) {
+            // Generate a default random number
+            $randomNumber = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
+            return $airline->flight_number . $randomNumber;
+        }
 
-        // function generateUniqueFlightNumber() {
-        //     $prefix = "PR";
-        //     $randomNumbers = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
-        //     return $prefix . $randomNumbers;
-        // }
-
-        // $flightNumber = generateUniqueFlightNumber();
-        // $flightNumberReturn = generateUniqueFlightNumber();
+        $flightNumber = generateUniqueFlightNumber($superadminAssignedAirline);
+        $flightNumberReturn = generateUniqueFlightNumber($superadminAssignedAirline);
 
         $flight = new Flight();
         $flight->flight_type = $request->input('flight_type');
@@ -85,9 +91,13 @@ class FlightController extends Controller
         $flight->departure_time_return = $request->input('departure_time_return');
         $flight->arrival_time_return = $request->input('arrival_time_return');
         $flight->price = $request->input('price');
-        $flight->airline_id = $request->input('airline_id');
-        // $flight->flight_number = $flightNumber;
-        // $flight->return_flight_number = $flightNumberReturn;
+        $flight->return_price = $request->input('return_price');
+
+        // Set the airline_id
+         $flight->airline_id = $superadminAssignedAirline->id;
+
+        $flight->flight_number = $flightNumber;
+        $flight->return_flight_number = $flightNumberReturn;
 
         //Parse departure and arrival date and time as Carbon DateTime objects
         $departureDateTime = Carbon::parse($flight->departure_date . ' ' . $flight->departure_time);
@@ -140,14 +150,19 @@ class FlightController extends Controller
 
     public function update(Request $request, $id)
     {
-        // function generateUniqueFlightNumber() {
-        //     $prefix = "PR";
-        //     $randomNumbers = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
-        //     return $prefix . $randomNumbers;
-        // }
+        // Retrieve the superadmin's assigned airline
+        $superadminAssignedAirline = auth()->user()->airlines()->first();
 
-        // $flightNumber = generateUniqueFlightNumber();
-        // $flightNumberReturn = generateUniqueFlightNumber();
+        // Function to generate a unique flight number
+        function generateUniqueFlightNumber($airline) {
+             // Generate a default random number
+            $randomNumber = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
+            return $airline->flight_number . $randomNumber;
+        }
+ 
+        $flightNumber = generateUniqueFlightNumber($superadminAssignedAirline);
+        $flightNumberReturn = generateUniqueFlightNumber($superadminAssignedAirline);
+ 
 
         $flight = Flight::find($id);
         $flight->flight_type = $request->input('flight_type');
@@ -163,9 +178,13 @@ class FlightController extends Controller
         $flight->departure_time_return = $request->input('departure_time_return');
         $flight->arrival_time_return = $request->input('arrival_time_return');
         $flight->price = $request->input('price');
-        $flight->airline_id = $request->input('airline_id');
-        // $flight->flight_number = $flightNumber;
-        // $flight->return_flight_number = $flightNumberReturn;
+        $flight->return_price = $request->input('return_price');
+
+        // Set the airline_id
+         $flight->airline_id = $superadminAssignedAirline->id;
+
+        $flight->flight_number = $flightNumber;
+        $flight->return_flight_number = $flightNumberReturn;
         
        // Parse departure and arrival date and time as Carbon DateTime objects
         $departureDateTime = Carbon::parse($flight->departure_date . ' ' . $flight->departure_time);

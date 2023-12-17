@@ -27,6 +27,7 @@
     <!-- This inputs is need to store after booking (submitting the form) -->
     <input name="flight_type" id="flight_type" type="hidden" value="{{ $queryFlightType }}">
     <input name="airline" id="airline" type="hidden" value="{{ $result->airline->airline }}">
+    <input name="airline_id" id="airline_id" type="hidden" value="{{ $result->airline->id }}">
     <input x-model="flight_number" name="flight_no" id="flight_no" type="hidden">
     <input x-model="departure_date" name="departure_date" id="departure_date" type="hidden">
     <input x-model="departure_date_return" name="departure_date_return" id="departure_date_return" type="hidden">
@@ -127,7 +128,7 @@
                 </div>
                 <div class="row mb-3 border-bottom  pb-2">
                     <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                        <input type="checkbox" name="pwd[]" id="pwd{{ $i }}">
+                        <input type="checkbox" name="pwd" id="pwd{{ $i }}" value="yes">
                         <label class="ms-2" for="pwd{{ $i }}">I am a Person with disability(PWD)</label for="pwd">
                     </div>
                 </div>
@@ -252,7 +253,6 @@
                     </div>
                 </div>
                 --}}
-                <!-- ... (remaining code) ... -->
 
             </div>
     </div>
