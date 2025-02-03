@@ -19,20 +19,23 @@ class AirlineController extends Controller
     
         return view('admin.airline.index', compact('airlines'));
     }
-
     public function create()
     {
         // Retrieve the superadmin's assigned airline
         $superadminAssignedAirline = auth()->user()->airlines()->first(); 
     
-        // Generate a default random number
-        $randomNumber = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
+        // Generate default random numbers
+        $randomNumberFlight = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
+        $randomNumberReturnFlight = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
     
         // Combine the prefix and random number to form the complete flight number
-        $completeFlightNumber = $superadminAssignedAirline->flight_number . $randomNumber;
+        $completeFlightNumber = $superadminAssignedAirline->flight_number . $randomNumberFlight;
+        $completeReturnFlightNumber = $superadminAssignedAirline->return_flight_number . $randomNumberReturnFlight;
     
-        return view('admin.airline.create', compact('completeFlightNumber'));
+        return view('admin.airline.create', compact('completeFlightNumber', 'completeReturnFlightNumber'));
     }
+    
+    
     
     public function store(Request $request)
     {
@@ -59,9 +62,19 @@ class AirlineController extends Controller
     
         // Retrieve the flight number prefix set by the superadmin from the database
         $adminFlightNumberPrefix = $superadminAssignedAirline->flight_number;
+        $adminReturnFlightNumberPrefix = $superadminAssignedAirline->return_flight_number;
     
-        // Add the random number to the flight number prefix
-        $airlines->flight_number = $adminFlightNumberPrefix . str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
+        // Generate random numbers and ensure they are different
+        do {
+            $randomNumberFlight = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
+            $randomNumberReturnFlight = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
+    
+            $flightNumber = $adminFlightNumberPrefix . $randomNumberFlight;
+            $returnFlightNumber = $adminReturnFlightNumberPrefix . $randomNumberReturnFlight;
+        } while ($flightNumber === $returnFlightNumber);
+    
+        $airlines->flight_number = $flightNumber;
+        $airlines->return_flight_number = $returnFlightNumber;
     
         $airlines->save();
     
@@ -69,9 +82,7 @@ class AirlineController extends Controller
         auth()->user()->airlines()->attach($airlines->id);
     
         return redirect('admin/airline')->with('success', 'Flight Number and Seats Added Successfully');
-    }
-    
-    
+    }    
     
     
     public function edit($id)

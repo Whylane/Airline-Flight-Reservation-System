@@ -14,17 +14,18 @@
                     <tr class="table-primary">
                         <th scope="col">#</th>
                         <th scope="col">Flight Type</th>
-                        <th scope="col">Airline</th>
+                        {{-- <th scope="col">Airline</th> --}}
                         <th scope="col">Route</th>
                         <th scope="col">Date & Time</th>
                         <th scope="col">Price</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($flights as $flight)
+                    @foreach ($flights as  $key => $flight)
                     <tr>
-                        <td>{{ $flight->id }}</td>
+                        <td>{{ $key + 1 }}</td>
                         <td>  
                             @if ($flight->flight_type === 'one_way')
                             One Way
@@ -32,7 +33,7 @@
                             Round Trip
                             @endif
                         </td>
-                        <td>{{ $flight->airline->airline}}</td>
+                        {{-- <td>{{ $flight->airline->airline}}</td> --}}
                         <td>
                             @if ($flight->originAirport)
                                 <h6>Origin: </h6>{{ $flight->originAirport->location }}
@@ -60,7 +61,8 @@
                             @if ($flight->flight_type === 'round_trip')
                                 <h6>Price (return): </h6>&#8369; {{ $flight->return_price}}
                             @endif
-                        </td>                        
+                        </td>             
+                        <td>{{ $statusLabels[$flight->status] }}</td>       
                         <td>
                             <a href="{{ url('admin/edit-flight/'.$flight->id) }}" class="btn btn-success btn-sm">Update</a>
                         </td>

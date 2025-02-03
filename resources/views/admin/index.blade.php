@@ -9,7 +9,7 @@
                       <i class="fa fa-users fa-3x text-primary"></i>
                       <div class="ms-3">
                           <p class="mb-2">Total Passenger</p>
-                          <h6 class="mb-0">{{ $totalPassengers }}</h6>
+                          <h6 class="mb-0 text-center">{{ $totalPassengers }}</h6>
                       </div>
                   </div>
               </div>
@@ -18,7 +18,7 @@
                     <i class="fas fa-ticket-alt fa-3x text-primary"></i>
                       <div class="ms-3">
                           <p class="mb-2">Total Ticket</p>
-                          <h6 class="mb-0">₱{{ $totalTicketAmount }}</h6>
+                          <h6 class="mb-0 text-center">₱{{ $totalTicketAmount }}</h6>
                       </div>
                   </div>
               </div>
@@ -27,7 +27,7 @@
                     <i class="fas fa-plane-departure fa-3x text-primary"></i>
                       <div class="ms-3">
                           <p class="mb-2">Total Flight</p>
-                          <h6 class="mb-0">{{ $flights }}</h6>
+                          <h6 class="mb-0 text-center">{{ $flights }}</h6>
                       </div>
                 </div>
             </div>
@@ -41,8 +41,8 @@
                 <div class="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
                     <i class="fas fa-check-circle fa-3x text-primary"></i>
                     <div class="ms-3">
-                        <p class="mb-2">Available Airline</p>
-                        <h6 class="mb-0">{{ $airlines }}</h6>
+                        <p class="mb-2">Available {{ auth()->user()->airlines()->first()->airline }}</p>
+                        <h6 class="mb-0 text-center">{{ $airlines }}</h6>
                     </div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                     <i class="fa fa-building fa-3x text-primary"></i>
                     <div class="ms-3">
                         <p class="mb-2">Total Airports</p>
-                        <h6 class="mb-0">{{ $airports }}</h6>
+                        <h6 class="mb-0 text-center">{{ $airports }}</h6>
                     </div>
                 </div>
             </div>

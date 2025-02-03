@@ -11,14 +11,31 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+
 
 class PassengerController extends Controller
 {
+    // public function index()
+    // {
+    //     $tickets = Booking::where('status', '0')->get();
+    //     return view('admin.passenger.index', compact('tickets'));
+    // }
+
     public function index()
-    {
-        $tickets = Booking::where('status', '0')->get();
-        return view('admin.passenger.index', compact('tickets'));
-    }
+{
+    // Get the currently signed-in admin
+    $admin = Auth::user();
+
+    // Retrieve the bookings associated with the admin's assigned airline
+    $tickets = Booking::where('status', '0')
+                      ->whereHas('airline', function ($query) use ($admin) {
+                          $query->where('user_id', $admin->id);
+                      })
+                      ->get();
+    
+    return view('admin.passenger.index', compact('tickets'));
+}
 
     public function show($id)
     {

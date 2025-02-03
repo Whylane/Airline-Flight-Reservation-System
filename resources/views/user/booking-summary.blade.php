@@ -66,7 +66,7 @@
                     </div>
                     @foreach ($selected_departure as $selected_dep)
                     <div>
-                        Flight Number: <span>{{ $selected_dep->flight_number }}</span>
+                        Flight Number: <span>{{ $selected_dep->airline->flight_number }}</span>
                     </div>
                     <div class="container">
                         <div class="row">
@@ -162,7 +162,7 @@
                         </span>
                     </div>
                     <div>
-                        Flight Number: <span>{{ $flight->return_flight_number }}</span>
+                        Flight Number: <span>{{ $flight->airline->return_flight_number }}</span>
                     </div>
                     <div class="container">
                         <div class="row">
@@ -384,6 +384,8 @@ $initialTotalAmount = 0;
     // Get all the checkboxes
     var checkboxes = document.querySelectorAll('input[name="seat[]"]');
 
+    console.log(checkboxes)
+
     checkboxes.forEach(function (checkbox) {
         // Add an event listener to each checkbox
         checkbox.addEventListener('change', function () {
@@ -408,6 +410,7 @@ $initialTotalAmount = 0;
                 var index = selectedSeats.findIndex(function (seat) {
                     return seat.seat === this.value;
                 }.bind(this));
+
 
                 if (index !== -1) {
                     selectedSeats.splice(index, 1);
@@ -459,26 +462,48 @@ $initialTotalAmount = 0;
     function logSelectedSeatsAndTotal(seats, total) {
         console.log('Selected Seats:', seats);
         console.log('Total Value:', total);
-        totalValueElement.textContent = total;
+        @if ($queryFlightType === "round_trip")
+        totalValueElement.textContent = total * 2;
+        console.log('Round trip selected');
+        @elseif($queryFlightType === 'one_way')
+        totalValueElement.textContent = total
+        console.log('One way selected');
+        @endif
     }
 
     // Function to update the grand total
     function updateGrandTotal() {
         // const totalP = {{ $item->price ?? 0  + $selected_dep->price  }};
-        const totalP =  {{ $item->price ?? 0  + $selected_dep->price}} +  {{ $item->return_price ?? 0 }} ;
-        const gtotal = totalAmount + selectedSeatsValue + totalP;
-
+        let totalP =  {{ $item->price ?? 0  + $selected_dep->price}} +  {{ $item->return_price ?? 0 }}  ;
+        // totalP * {{ $numberofPassengers }}
+        @if ($queryFlightType === "round_trip")
+        const gtotal = totalAmount + (selectedSeatsValue * 2) + totalP * {{ $numberofPassengers }};
+        @elseif($queryFlightType === 'one_way')
+        const gtotal = totalAmount + selectedSeatsValue  + totalP * {{ $numberofPassengers }};
+        @endif
 
         document.getElementById("grandtotal").textContent = gtotal.toFixed(2); // Display the value with two decimal places
         document.getElementById("baggageTotal").textContent = totalAmount.toFixed(2);
     }
 
-
     // const fback = {{ $item->price ?? 0  + $selected_dep->price  }}
-    const fback = {{ $item->price ?? 0  + $selected_dep->price}} +  {{ $item->return_price ?? 0 }} ;
+    const defaultSeatPrice = 200 * {{ $numberofPassengers }}
+        @if ($queryFlightType === "round_trip")
+        console.log()
+        const fback = ({{ $item->price ?? 0  + $selected_dep->price}} +  {{ $item->return_price ?? 0 }}) * {{ $numberofPassengers }} + (defaultSeatPrice * 2) ;
+        @elseif($queryFlightType === 'one_way')
+        const fback = ({{ $item->price ?? 0  + $selected_dep->price}} +  {{ $item->return_price ?? 0 }}) * {{ $numberofPassengers }} + defaultSeatPrice
+        @endif
         const fbackB= 0
         document.getElementById("grandtotal").textContent = fback.toFixed(2);
         document.getElementById("baggageTotal").textContent = fbackB;
+
+        @if ($queryFlightType === "round_trip")
+        totalValueElement.textContent =  200 * {{ $numberofPassengers }} * 2
+        @elseif($queryFlightType === 'one_way')
+        totalValueElement.textContent =  200 * {{ $numberofPassengers }}
+        @endif
+
 
     // Get the checkbox and the button
     const confirmationCheckbox = document.getElementById('confirmationCheckbox');

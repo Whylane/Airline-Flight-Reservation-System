@@ -76,8 +76,7 @@
 
                                 <td>{{ $result->airline->airline }}
                                 </td>
-                                <td> {{ substr($result->flight_number, 0, 2) }} {{ substr($result->flight_number, 2) }}
-                                </td>
+                                <td> {{ $result->airline->flight_number }}
                                 <td>{{ Carbon\Carbon::parse($result->departure_time)->format('H:i') }}</td>
                                 <td>{{ Carbon\Carbon::parse($result->arrival_time)->format('H:i') }}</td>
                                 
@@ -154,8 +153,7 @@
                         <tr>
                             <td>{{ $result->airline->airline }}
                             </td>
-                            <td> {{ substr($result->return_flight_number, 0, 2) }} {{ substr($result->return_flight_number, 2) }}
-                            </td>
+                            <td> {{ $result->airline->return_flight_number}}</td>
                             <td>{{ Carbon\Carbon::parse($result->departure_time_return)->format('H:i') }}</td>
                             <td>{{ Carbon\Carbon::parse($result->arrival_time_return)->format('H:i') }}</td>
                             <td>{{ $result->duration }}</td>

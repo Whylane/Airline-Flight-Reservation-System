@@ -6,7 +6,7 @@
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Flight Lists</h1>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="./">Home</a></li>
+      {{-- <li class="breadcrumb-item"><a href="./">Home</a></li> --}}
       <li class="breadcrumb-item">Flights</li>
       <li class="breadcrumb-item active" aria-current="page">Flight Lists</li>
     </ol>
@@ -30,10 +30,10 @@
                         <th>Action</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      @foreach ($flights as $flight)
+                    <tbody>    
+                      @foreach ($flights as  $key => $flight)
                       <tr>
-                          <td>{{ $flight->id }}</td>
+                          <td>{{ $key + 1 }}</td>
                           <td>  
                               @if ($flight->flight_type === 'one_way')
                               One Way

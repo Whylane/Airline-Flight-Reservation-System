@@ -6,7 +6,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Add Airlines</h1>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="./">Home</a></li>
+            {{-- <li class="breadcrumb-item"><a href="./">Home</a></li> --}}
             <li class="breadcrumb-item">Airlines</li>
             <li class="breadcrumb-item active" aria-current="page">Add Airlines</li>
         </ol>
@@ -40,11 +40,20 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col">
                                 <div class="form-group">
                                     <label for="flightNumber">Flight Number Prefix</label>
                                     <input type="text" class="form-control" id="flightNumber" name="flight_number" maxlength="2" required>
                                     @error('flight_number')
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="returnFlightNumber">Return Flight Number Prefix</label>
+                                    <input type="text" class="form-control" id="returnFlightNumber" name="return_flight_number" maxlength="2" required>
+                                    @error('return_flight_number')
                                     <div class="alert alert-danger mt-2">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -61,3 +70,23 @@
 </div>
 <!-- Add Airline End -->
 @endsection
+<script>
+    // Wait for the document to be ready
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the input elements
+        var flightNumberInput = document.getElementById('flightNumber');
+        var returnFlightNumberInput = document.getElementById('returnFlightNumber');
+
+        // Add an input event listener to the return flight number input
+        returnFlightNumberInput.addEventListener('input', function () {
+            // Set the same value for the flight number input
+            flightNumberInput.value = returnFlightNumberInput.value;
+        });
+
+        // Add an input event listener to the flight number input
+        flightNumberInput.addEventListener('input', function () {
+            // Set the same value for the return flight number input
+            returnFlightNumberInput.value = flightNumberInput.value;
+        });
+    });
+</script>

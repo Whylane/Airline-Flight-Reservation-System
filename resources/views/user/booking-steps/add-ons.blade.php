@@ -10,8 +10,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12">
 
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+        <div class="col-md-12">
             @for ($i = 1; $i <= $numberofPassengers; $i++) <div class="px-3  mt-4 py-3"
                 style="background-color: #0050FF; border-radius: 20px;">
                 <div class="card  rounded-2">

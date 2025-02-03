@@ -82,30 +82,48 @@
             <div class="row" id="onewayContent">
                 <div class="col mb-3">
                     <div class="form-floating">
-                        <input type="date" class="form-control" name="departure_date_return" value="{{ $flights->departure_date_return }}" required>
+                        <input type="date" class="form-control" name="departure_date_return" value="{{ $flights->departure_date_return }}">
                         <label for="departure_date_return">Departure Date (Return)</label>
                     </div>
                 </div>
 
                 <div class="col mb-3">
                     <div class="form-floating">
-                        <input type="date" class="form-control" name="arrival_date_return" value="{{ $flights->arrival_date_return }}" required>
+                        <input type="date" class="form-control" name="arrival_date_return" value="{{ $flights->arrival_date_return }}">
                         <label for="arrival_date_return">Arrival Date (Return)</label>
                     </div>
                 </div>
           
                 <div class="col  mb-3">
                     <div class="form-floating">
-                        <input type="time" class="form-control" name="departure_time_return" value="{{ $flights->departure_time_return }}" required>
+                        <input type="time" class="form-control" name="departure_time_return" value="{{ $flights->departure_time_return }}">
                         <label for="departure_time_return">Departure Time (Return)</label>
                     </div>
                 </div>
 
                 <div class="col mb-3">
                     <div class="form-floating">
-                        <input type="time" class="form-control" name="arrival_time_return" value="{{ $flights->arrival_time_return }}" required>
+                        <input type="time" class="form-control" name="arrival_time_return" value="{{ $flights->arrival_time_return }}">
                         <label for="arrival_time_return">Arrival Time (Return)</label>
                     </div>
+                </div>
+
+                <div class="col mb-3">
+                    <div class="form-floating">
+                        <input type="number" class="form-control" name="return_price" value="{{ $flights->return_price }}" placeholder=" ">
+                        <label for="return_price">Price (Return)</label>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select class="form-select" name="return_flight_number">
+                        @foreach ($airlines as $airline)
+                            <option value="{{ $airline->return_flight_number }}" {{ $airline->return_flight_number == $flights->return_flight_number ? 'selected' : '' }}>
+                                {{ $airline->return_flight_number }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <label style="margin-left: 13px;">Return Flight Number</label>
                 </div>
             </div>
 
@@ -114,16 +132,16 @@
                 <label for="price">Price</label>
             </div>
 
-            {{-- <div class="form-floating mb-3">
-                <select class="form-select" name="airline_id" required>
-                    <option value="" disabled>Choose Flight Number</option>
+            <div class="form-floating mb-3">
+                <select class="form-select" name="flight_number" required>
                     @foreach ($airlines as $airline)
-                    <option value="{{ $airline->id }}" {{ $flights->airline_id == $airline->id ? 'selected' : '' }}>
-                        {{ $airline->flight_number }}
-                    </option>
+                        <option value="{{ $airline->flight_number }}" {{ $airline->flight_number == $flights->flight_number ? 'selected' : '' }}>
+                            {{ $airline->flight_number }}
+                        </option>
                     @endforeach
                 </select>
-                <label>Flight Number</label> --}}
+                <label>Flight Number</label>
+            </div>
 
             <div class="mt-4 d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -59,9 +59,12 @@
     </div>
 </div>
 
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var checkboxes = document.querySelectorAll('#seat_card-{{ $i }} .seats input[type="checkbox"]');
+
+
         checkboxes.forEach(function (checkbox) {
             checkbox.addEventListener('change', function () {
                 if (!checkbox.checked) {
@@ -69,13 +72,34 @@
                 }
                 checkboxes.forEach(function (otherCheckbox) {
                     if (otherCheckbox !== checkbox && otherCheckbox.checked && !otherCheckbox.hasAttribute('disabled')) {
-                        otherCheckbox.checked = false;
+                        var idx = selectedSeats.findIndex(function (seat) {
+                    return seat.seat === otherCheckbox.value;
+                    }.bind(otherCheckbox));
+                    console.log(idx)
+
+                    if (idx !== -1) {
+                        selectedSeats.splice(idx, 1);
                     }
+
+                // Update the total value of selected seats
+                selectedSeatsValue = calculateTotalValue(selectedSeats);
+
+                // Update the grand total
+                updateGrandTotal();
+
+                // Log the current selected seats and total value after each change event
+                logSelectedSeatsAndTotal(selectedSeats, selectedSeatsValue);
+
+                        otherCheckbox.checked = false;
+
+                }
                 });
             });
         });
     });
 </script>
+
+
 
 <style>
     .bg-yellow {
@@ -114,9 +138,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         height: 3rem;
-        /* Adjust the font size as needed */
         color: #000000;
-        /* Default color */
     }
 
     .seat-card input:checked+.user-placeholder {

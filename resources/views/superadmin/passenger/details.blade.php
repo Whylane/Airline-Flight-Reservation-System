@@ -5,7 +5,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">View Details</h1>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="./">Home</a></li>
+            {{-- <li class="breadcrumb-item"><a href="./">Home</a></li> --}}
             <li class="breadcrumb-item">Passengers</li>
             <li class="breadcrumb-item active" aria-current="page">View Details</li>
         </ol>
@@ -122,7 +122,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label>Status</label>
                         <select class="form-control" name="status" id="statusSelect">
                             <option {{ $ticket->status == '0' ? 'selected' : '' }} value="0">Pending</option>
@@ -137,7 +137,7 @@
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

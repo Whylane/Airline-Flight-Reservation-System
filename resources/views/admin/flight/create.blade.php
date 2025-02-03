@@ -111,6 +111,26 @@
                         <label for="return_price">Price (Return)</label>
                     </div>
                 </div>
+
+                <div class="form-floating mb-3">
+                    <select class="form-select" name="airline_id">
+                        <option value="" disabled selected>Choose Airline</option>
+                        @foreach ($airlines as $airline)
+                        <option value="{{ $airline->id }}">{{ $airline->return_flight_number }}</option>
+                    @endforeach
+                    </select>
+                    <label style="margin-left: 13px;">Return Flight Number</label>
+                </div>
+                
+                {{-- <div class="form-floating mb-3">
+                    <select class="form-select" name="airline_id" required>
+                        <option value="" disabled selected>Choose Return Flight Number</option>
+                        @foreach ($airlines as $airline)
+                            <option value="{{ $airline->id }}">{{ $airline->return_flight_number }}</option>
+                        @endforeach
+                    </select>
+                    <label style="margin-left: 13px;">Return Flight Number</label>
+                </div> --}}
             </div>
 
             <div class="form-floating mb-3">
@@ -118,16 +138,15 @@
                 <label for="price">Price</label>
             </div>
 
-            {{-- <div class="form-floating mb-3">
+            <div class="form-floating mb-3">
                 <select class="form-select" name="airline_id" required>
                     <option value="" disabled selected>Choose Flight Number</option>
                     @foreach ($airlines as $airline)
-                        <option value="{{ $airline->id }}">{{ $airline->flight_number }}</option>
+                    <option value="{{ $airline->id }}">{{ $airline->flight_number }}</option>
                     @endforeach
                 </select>
                 <label>Flight Number</label>
-            </div> --}}
-            
+            </div>
 
             <div class="mt-4 d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">Submit</button>

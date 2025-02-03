@@ -27,7 +27,9 @@ class Flight extends Model
         'arrival_date_return',
         'departure_time_return',
         'arrival_time_return',
-        // 'return_flight_number',
+        'return_flight_number',
+        'return_price',
+        'user_id'
     ];
 
     protected $casts = [
@@ -64,5 +66,10 @@ class Flight extends Model
     public function duration()
     {
         return $this->duration;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

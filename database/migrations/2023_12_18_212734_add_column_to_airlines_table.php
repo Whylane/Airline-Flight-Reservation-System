@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->string('airline_id')->nullable();
-            $table->string('return_flight_number')->nullable();
+        Schema::table('airlines', function (Blueprint $table) {
+            $table->string('return_flight_number', 5); 
         });
     }
 
@@ -22,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
+        Schema::table('airlines', function (Blueprint $table) {
             //
         });
     }

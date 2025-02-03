@@ -73,6 +73,51 @@
                         </ul>
                     </ol>
             </div>
+            <div>
+                <h5>Check-In and Boarding Guidelines</h5>
+                <p class="text-break" style="text-indent: 20px; text-align: justify;">Check-in counters for domestic flights strictly close 45 mins before the scheduled time of departure. </p>
+                <h6><b>Online Check-in</b></h6>
+                <ul>
+                    <li>For domestic flights - available from 2 days up to 1 hour before your flight</li>
+                </ul>
+                <h6><b>Online Check-in is not allowed for:</b></h6>
+                <ul>
+                    <li>Unaccompanied Minors</li>
+                    <li>Guests who must submit a medical certificate</li>
+                    <li>Guests requiring special assistance and bag service</li>
+                    <li>Guests on group bookings (if the booking has at least 20 passengers)</li>
+                    <li>Guests with outstanding balance</li>
+                </ul>
+                <h6><b>Changes of flights</b></h6>
+                <ol>
+                    <li>Communication to passengers when there are changes to flights</li>
+                    <p class="text-break" style="text-indent: 20px; text-align: justify;">We aims to keep passengers informed, especially when there are changes to their flights, so our passengers are able to make alternative plans:</p>
+                    <ul>
+                        <li><b>PLANNED DISRUPTION</b> - Flight schedules may be changed due to several reasons. When this happens, Our Company will send an  email notification to affected passengers, using the contact details they have provided in their booking.</li>
+                        <li class="mb-3"><b>ON-THE-SPOT DISRUPTION</b>  - Flights may encounter delays or cancellation during the day of the flight due to environmental, operational, or technical reasons. When this happens, notification is provided by the relevant frontline team and/or through an  email.</li>
+                    </ul>
+                        <li>Provision of options to passengers with changes to flights</li>
+                        <p class="text-break" style="text-indent: 20px; text-align: justify;">We will ensure customer's welfare is taken cared of whenever there are planned or on-the-spot changes to flights. Below are scenarios and options that passengers have, as aligned with the Philippine Air Passenger Bill of Rights:</p>
+                    <ul>
+                        <li><b>Schedule change of less than one hour</b> - When flight schedule is changed by less than one hour, passengers will not be given any flexibility options.</li>
+                        <li><b>Schedule change of one hour or longer</b>- When flight schedule is changed by one hour or longer, passengers will be given the following options:</li>
+                        <li>Rebooking for travel within thirty (30) days, waived fare difference and any applicable penalty fees; or</li>
+                        <li class="mb-3">Conversion to Travel Fund.</li>
+                        <li><b>Flight cancellation of 24 hours or more before ETD, attributable to our Company</b> - When flight is cancelled at least 24 hours before estimated time of departure, passengers will be given the following options:</li>
+                        <li>Rebooking for travel within thirty (30) days, waived fare difference and any applicable penalty fees;</li>
+                        <li>Conversion to Travel Fund or,</li>
+                        <li>Refund according to original form of payment.</li>
+                        <p class="text-break" style="text-indent: 20px; text-align: justify;">In addition, passengers who are already in the airport at the time of cancellation may be endorsed to another carrier without paying any fare difference or provided access to amenities, which include food and drinks, hotel accommodations, etc.</p>
+                        <li><b>Flight cancellation due to other causes</b> - When flight is cancelled due to force majeure, safety and/or security reasons, passengers will be given the following options</li>
+                        <li>Rebooking for travel within thirty (30) days, waived fare difference and any applicable penalty fees;</li>
+                        <li>Conversion to Travel Fund or,</li>
+                        <li class="mb-3">Refund according to original form of payment.</li>
+                        <h6><b>Note:</b></h6>
+                        <p class="text-break" style="text-indent: 20px; text-align: justify;">The fare, taxes, and fees are typically non-refundable for voluntary cancellations. However, they can be rescheduled for a different time up to two hours before the scheduled departure, subject to applicable penalties and fare differences.</p>
+                        <p class="text-break" style="text-indent: 20px; text-align: justify;">Passengers can voluntarily cancel and retain the booking value in the Travel Fund, provided the cancellation is done within two hours of the scheduled departure. Refer to this guide for steps on storing your booking in the Travel Fund.</p>
+                    </ul>    
+                </ol>
+            </div>
         </div>
     </div>
 </div>

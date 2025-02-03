@@ -13,19 +13,51 @@ use Illuminate\Support\Facades\Auth;
 
 class FlightController extends Controller
 {
+    // public function index()
+    // {
+    //     $statusLabels = [
+    //         0 => 'Pending',
+    //         1 => 'Approved',
+    //         3 => 'Rejected',
+    //     ];
+    
+    //     $flights = Flight::whereIn('status', array_keys($statusLabels))->get();
+    
+    //     foreach ($flights as $flight) {
+    //         $duration = $flight->duration;
+    //         $formattedDuration = $this->formatDurationForDisplay($duration);
+    //         $flight->formatted_duration = $formattedDuration;
+    //     }
+    
+    //     return view('admin.flight.index', compact('flights', 'statusLabels'));
+    // }
+
     public function index()
-    {
-        $flights = Flight::where('status', '0')->get();
+{
+    // Get the currently authenticated admin
+    $admin = Auth::user();
 
-        foreach ($flights as $flight) {
-            $duration = $flight->duration;
-            $formattedDuration = $this->formatDurationForDisplay($duration);
-            $flight->formatted_duration = $formattedDuration;
-        }
+    $statusLabels = [
+        0 => 'Pending',
+        1 => 'Approved',
+        3 => 'Rejected',
+    ];
 
-        return view('admin.flight.index', compact('flights'));
+    // Retrieve flights added by the currently logged-in admin
+    $flights = Flight::where('user_id', $admin->id)
+                    ->whereIn('status', array_keys($statusLabels))
+                    ->get();
+
+    foreach ($flights as $flight) {
+        $duration = $flight->duration;
+        $formattedDuration = $this->formatDurationForDisplay($duration);
+        $flight->formatted_duration = $formattedDuration;
     }
 
+    return view('admin.flight.index', compact('flights', 'statusLabels'));
+}
+
+    
     public function create()
     {
         // Get the currently authenticated admin
@@ -38,12 +70,107 @@ class FlightController extends Controller
         return view('admin.flight.create', compact('airlines', 'airports'));
     }
 
+    // public function store(Request $request)
+    // {
+    //     // Define validation rules
+    //     $rules = [
+    //         'flight_type' => 'required',
+    //         'origin_id' => 'required',
+    //         'destination_id' => 'required',
+    //         'departure_date' => 'required|date_format:Y-m-d',
+    //         'departure_time' => 'required|date_format:H:i',
+    //         'arrival_date' => 'required|date_format:Y-m-d',
+    //         'arrival_time' => 'required|date_format:H:i',
+    //         'departure_date_return' => 'nullable|date_format:Y-m-d',
+    //         'arrival_date_return' => 'nullable|date_format:Y-m-d',
+    //         'departure_time_return' => 'nullable|date_format:H:i',
+    //         'arrival_time_return' => 'nullable|date_format:H:i',
+    //         'price' => 'required|numeric',
+    //         'return_price' => 'nullable|numeric',
+    //         'airline_id' => 'nullable',
+    //         'flight_number' => 'nullable',
+    //         'return_flight_number' => 'nullable',
+    //     ];
+    
+    //     // Apply the validation rules to the request data
+    //     $request->validate($rules);
+    
+    // // Get the currently authenticated admin
+    // $admin = Auth::user();
+
+    // // Get the selected airline based on the provided airline_id
+    // $selectedAirline = Airline::where('user_id', $admin->id)
+    //     ->where('id', $request->input('airline_id'))
+    //     ->first();
+
+    //     // Retrieve the flight number and return flight number from the associated Airline model
+    //     $flightNumber = $selectedAirline->flight_number;
+    //     $returnFlightNumber = $selectedAirline->return_flight_number;
+      
+    
+    //     // Create a new Flight instance
+    //     $flight = new Flight([
+    //         'flight_type' => $request->input('flight_type'),
+    //         'origin_id' => $request->input('origin_id'),
+    //         'destination_id' => $request->input('destination_id'),
+    //         'departure_date' => $request->input('departure_date'),
+    //         'arrival_date' => $request->input('arrival_date'),
+    //         'departure_time' => $request->input('departure_time'),
+    //         'arrival_time' => $request->input('arrival_time'),
+    //         'departure_date_return' => $request->input('departure_date_return'),
+    //         'arrival_date_return' => $request->input('arrival_date_return'),
+    //         'departure_time_return' => $request->input('departure_time_return'),
+    //         'arrival_time_return' => $request->input('arrival_time_return'),
+    //         'price' => $request->input('price'),
+    //         'return_price' => $request->input('return_price'),
+    //         'airline_id' => $request->input('airline_id'),
+    //         'flight_number' => $flightNumber,
+    //         'return_flight_number' => $returnFlightNumber,
+    //     ]);
+    
+    //     // Parse departure and arrival date and time as Carbon DateTime objects
+    //     $departureDateTime = Carbon::parse($flight->departure_date . ' ' . $flight->departure_time);
+    //     $arrivalDateTime = Carbon::parse($flight->arrival_date . ' ' . $flight->arrival_time);
+    
+    //     // Check if arrival time is earlier than departure time
+    //     if ($arrivalDateTime < $departureDateTime) {
+    //         $arrivalDateTime->addDay(); // Add a day to the arrival time
+    //     }
+    
+    //     // Calculate the duration in seconds
+    //     $durationInSeconds = $arrivalDateTime->diffInSeconds($departureDateTime);
+    
+    //     // Calculate days, hours, and minutes
+    //     $days = floor($durationInSeconds / (60 * 60 * 24));
+    //     $hours = floor(($durationInSeconds % (60 * 60 * 24)) / (60 * 60));
+    //     $minutes = floor(($durationInSeconds % (60 * 60)) / 60);
+    
+    //     // Format the duration
+    //     $duration = "";
+    
+    //     if ($days > 0) {
+    //         $duration .= $days . 'd ';
+    //     }
+    
+    //     if ($hours > 0) {
+    //         $duration .= $hours . 'h ';
+    //     }
+    
+    //     if ($minutes > 0) {
+    //         $duration .= $minutes . 'm';
+    //     }
+    
+    //     $flight->duration = $duration;
+    
+    //     // Save the Flight instance
+    //     $flight->save();
+    
+    //     return redirect('admin/flight');
+    // }
+    
+ 
     public function store(Request $request)
     {
-
-        // Retrieve the superadmin's assigned airline
-        $superadminAssignedAirline = auth()->user()->airlines()->first();
-
         // Define validation rules
         $rules = [
             'flight_type' => 'required',
@@ -59,91 +186,94 @@ class FlightController extends Controller
             'arrival_time_return' => 'nullable|date_format:H:i',
             'price' => 'required|numeric',
             'return_price' => 'nullable|numeric',
-            // 'airline_id' => 'nullable',
+            'airline_id' => 'nullable',
             'flight_number' => 'nullable',
             'return_flight_number' => 'nullable',
         ];
-
+    
         // Apply the validation rules to the request data
         $request->validate($rules);
-        
-        // Function to generate a unique flight number
-        function generateUniqueFlightNumber($airline) {
-            // Generate a default random number
-            $randomNumber = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
-            return $airline->flight_number . $randomNumber;
-        }
+    
+        // Get the currently authenticated admin
+        $admin = Auth::user();
+    
+        // Get the selected airline based on the provided airline_id
+        $selectedAirline = Airline::where('user_id', $admin->id)
+            ->where('id', $request->input('airline_id'))
+            ->first();
+    
+        // Retrieve the flight number and return flight number from the associated Airline model
+        $flightNumber = $selectedAirline->flight_number;
+        $returnFlightNumber = $selectedAirline->return_flight_number;
 
-        $flightNumber = generateUniqueFlightNumber($superadminAssignedAirline);
-        $flightNumberReturn = generateUniqueFlightNumber($superadminAssignedAirline);
-
-        $flight = new Flight();
-        $flight->flight_type = $request->input('flight_type');
-        $flight->origin_id = $request->input('origin_id');
-        $flight->destination_id = $request->input('destination_id');
-        $flight->departure_date = $request->input('departure_date');
-        $flight->arrival_date = $request->input('arrival_date');
-        $flight->departure_time = $request->input('departure_time');
-        $flight->arrival_time = $request->input('arrival_time');
-
-        $flight->departure_date_return = $request->input('departure_date_return');
-        $flight->arrival_date_return = $request->input('arrival_date_return');
-        $flight->departure_time_return = $request->input('departure_time_return');
-        $flight->arrival_time_return = $request->input('arrival_time_return');
-        $flight->price = $request->input('price');
-        $flight->return_price = $request->input('return_price');
-
-        // Set the airline_id
-         $flight->airline_id = $superadminAssignedAirline->id;
-
-        $flight->flight_number = $flightNumber;
-        $flight->return_flight_number = $flightNumberReturn;
-
-        //Parse departure and arrival date and time as Carbon DateTime objects
+        $flight = new Flight([
+            'flight_type' => $request->input('flight_type'),
+            'origin_id' => $request->input('origin_id'),
+            'destination_id' => $request->input('destination_id'),
+            'departure_date' => $request->input('departure_date'),
+            'arrival_date' => $request->input('arrival_date'),
+            'departure_time' => $request->input('departure_time'),
+            'arrival_time' => $request->input('arrival_time'),
+            'departure_date_return' => $request->input('departure_date_return'),
+            'arrival_date_return' => $request->input('arrival_date_return'),
+            'departure_time_return' => $request->input('departure_time_return'),
+            'arrival_time_return' => $request->input('arrival_time_return'),
+            'price' => $request->input('price'),
+            'return_price' => $request->input('return_price'),
+            'airline_id' => $request->input('airline_id'),
+            'flight_number' => $flightNumber,
+            'return_flight_number' => $returnFlightNumber,
+            'user_id' => $admin->id, // Assign the user_id
+        ]);
+    
+        // Parse departure and arrival date and time as Carbon DateTime objects
         $departureDateTime = Carbon::parse($flight->departure_date . ' ' . $flight->departure_time);
         $arrivalDateTime = Carbon::parse($flight->arrival_date . ' ' . $flight->arrival_time);
-
+    
         // Check if arrival time is earlier than departure time
         if ($arrivalDateTime < $departureDateTime) {
             $arrivalDateTime->addDay(); // Add a day to the arrival time
         }
-
+    
         // Calculate the duration in seconds
         $durationInSeconds = $arrivalDateTime->diffInSeconds($departureDateTime);
-
+    
         // Calculate days, hours, and minutes
         $days = floor($durationInSeconds / (60 * 60 * 24));
         $hours = floor(($durationInSeconds % (60 * 60 * 24)) / (60 * 60));
         $minutes = floor(($durationInSeconds % (60 * 60)) / 60);
-
+    
         // Format the duration
         $duration = "";
-
+    
         if ($days > 0) {
             $duration .= $days . 'd ';
         }
-
+    
         if ($hours > 0) {
             $duration .= $hours . 'h ';
         }
-
+    
         if ($minutes > 0) {
             $duration .= $minutes . 'm';
         }
-
+    
         $flight->duration = $duration;
-
-
+    
+        // Save the Flight instance
         $flight->save();
-
+    
         return redirect('admin/flight');
-    }
- 
+    }    
 
     public function edit($id)
     {
         $flights = Flight::find($id);
-        $airlines = Airline::all();
+        // Get the currently authenticated admin
+        $admin = Auth::user();
+
+        // Get only the airlines added by the current admin
+        $airlines = Airline::where('user_id', $admin->id)->get();
         $airports = Airport::all();
         return view('admin.flight.edit', compact('flights', 'airlines', 'airports'));
     }
@@ -151,18 +281,40 @@ class FlightController extends Controller
     public function update(Request $request, $id)
     {
         // Retrieve the superadmin's assigned airline
-        $superadminAssignedAirline = auth()->user()->airlines()->first();
+        // $superadminAssignedAirline = auth()->user()->airlines()->first();
 
-        // Function to generate a unique flight number
-        function generateUniqueFlightNumber($airline) {
-             // Generate a default random number
-            $randomNumber = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
-            return $airline->flight_number . $randomNumber;
-        }
+        // // Function to generate a unique flight number
+        // function generateUniqueFlightNumber($airline) {
+        //      // Generate a default random number
+        //     $randomNumber = str_pad(rand(0, 999), 3, '0', STR_PAD_LEFT);
+        //     return $airline->flight_number . $randomNumber;
+        // }
  
-        $flightNumber = generateUniqueFlightNumber($superadminAssignedAirline);
-        $flightNumberReturn = generateUniqueFlightNumber($superadminAssignedAirline);
+        // $flightNumber = generateUniqueFlightNumber($superadminAssignedAirline);
+        // $flightNumberReturn = generateUniqueFlightNumber($superadminAssignedAirline);
  
+        // Define validation rules
+        $rules = [
+            'flight_type' => 'required',
+            'origin_id' => 'required',
+            'destination_id' => 'required',
+            'departure_date' => 'required|date_format:Y-m-d',
+            'departure_time' => 'required|date_format:H:i',
+            'arrival_date' => 'required|date_format:Y-m-d',
+            'arrival_time' => 'required|date_format:H:i',
+            'departure_date_return' => 'nullable|date_format:Y-m-d',
+            'arrival_date_return' => 'nullable|date_format:Y-m-d',
+            'departure_time_return' => 'nullable|date_format:H:i',
+            'arrival_time_return' => 'nullable|date_format:H:i',
+            'price' => 'required|numeric',
+            'return_price' => 'nullable|numeric',
+            'airline_id' => 'nullable',
+            // 'flight_number' => 'nullable',
+            // 'return_flight_number' => 'nullable',
+        ];
+
+        // Apply the validation rules to the request data
+        $request->validate($rules);
 
         $flight = Flight::find($id);
         $flight->flight_type = $request->input('flight_type');
@@ -179,12 +331,13 @@ class FlightController extends Controller
         $flight->arrival_time_return = $request->input('arrival_time_return');
         $flight->price = $request->input('price');
         $flight->return_price = $request->input('return_price');
+        $flight->airline_id = $request->input('airline_id');
 
-        // Set the airline_id
-         $flight->airline_id = $superadminAssignedAirline->id;
+        // // Set the airline_id
+        //  $flight->airline_id = $superadminAssignedAirline->id;
 
-        $flight->flight_number = $flightNumber;
-        $flight->return_flight_number = $flightNumberReturn;
+        // $flight->flight_number = $flightNumber;
+        // $flight->return_flight_number = $flightNumberReturn;
         
        // Parse departure and arrival date and time as Carbon DateTime objects
         $departureDateTime = Carbon::parse($flight->departure_date . ' ' . $flight->departure_time);

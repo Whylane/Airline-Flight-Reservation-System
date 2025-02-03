@@ -5,7 +5,7 @@
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">Airline Lists</h1>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="./">Home</a></li>
+      {{-- <li class="breadcrumb-item"><a href="{{ url('superadmin/dashboard') }}">Home</a></li> --}}
       <li class="breadcrumb-item">Airlines</li>
       <li class="breadcrumb-item active" aria-current="page">Airline Lists</li>
     </ol>
@@ -22,7 +22,7 @@
                 <th>#</th>
                 <th>Logo</th>
                 <th>Airline</th>
-                <th>Flight Number</th>
+                <th>Prefix Flight Number</th>
                 <th>Added By</th>
                 <th>Action</th>
               </tr>

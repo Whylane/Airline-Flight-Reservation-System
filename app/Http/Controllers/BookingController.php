@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Models\Airline;
+use App\Models\Flight;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -61,13 +62,25 @@ class BookingController extends Controller
             $seat = $request->input('seat');
         }
     }
+       
         $totalSeats = DB::table('airlines')->where('id', $request->input('airline_id'))->pluck('total_seats')->first();
-        $availableSeats = max(0, $totalSeats - $numberofPassengers);
-        DB::table('airlines')->where('id', $request->input('airline_id'))->update(['total_seats' => $availableSeats]);
-        // Fetch the 'flight_number' from the selected airline
-        $airline = Airline::where('id', $request->input('airline_id'))->first();
-        $flightNumber = $airline ? $airline->flight_number : null;
+        $bookedSeats = Booking::where('airline_id', $request->input('airline_id'))->where('status', 1)->sum('adultPassengers', 'childPassengers', 'infantPassengers');
+        $availableSeats = max(0, $totalSeats - $bookedSeats - $numberofPassengers);
+
+        // Check if total seats are zero
+        if ($totalSeats == 0) {
+            // Display an error and prevent booking
+            $warningMessage = 'There are no available seats for the flight you have chosen. If you have inquiries about seat availability, considering it as overbooking, please contact us via email at ';
+            return redirect('myFlights')->with('warning', $warningMessage);
+        }
  
+
+        DB::table('airlines')->where('id', $request->input('airline_id'))->update(['total_seats' => $availableSeats]);
+        // Fetch the 'flight_number' from the selected flight
+        $flight = Flight::where('airline_id', $request->input('airline_id'))
+            ->where('status', 1)
+            ->first();
+        $flightNumber = $flight ? $flight->flight_number : null;
         $booking = Booking::create([
             'user_id' => auth()->user()->id,
             'flight_type' => $request->input('flight_type'),
@@ -152,6 +165,7 @@ class BookingController extends Controller
         return redirect($showUrl);
     }
 
+
     private function generatePDF($booking, $data) {
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
@@ -171,7 +185,7 @@ class BookingController extends Controller
      public function generateRandomSeat()
      {
          $rows = ['C', 'D'];
-         $columns = ['1', '2', '3', '4', '5'];
+         $columns = ['1', '2', '3', '4', '5', '6'];
 
          $randomRow = array_rand($rows);
          $randomColumn = array_rand($columns);

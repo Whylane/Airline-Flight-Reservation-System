@@ -29,26 +29,20 @@
             padding: 10px;
             border-top-left-radius: 5px;
             border-top-right-radius: 5px;
+            margin-right: 10px;
+            font-family: 'Lato', sans-serif;
+            font-weight: bolder;
+         
         }
 
-        .brand-letter {
-            font-size: 1.6em;
-            font-weight: bold;
-        }
+        /* .sidebar-brand-icon {
+            display: inline-block;
+        } */
 
-        .brand-letter-a {
-            color: #faff00;
-        }
-
-        .brand-letter-f {
-            color: #ffffff;
-        }
-
-        .brand-letter-r {
-            color: #faff00;
-        }
-
-        .brand-letter-s {
+        .brand-text {
+            display: inline-block;
+            margin-left: 10px; 
+            vertical-align: middle;
             color: #ffffff;
         }
 
@@ -73,8 +67,9 @@
         }
 
         .receipt-heading p {
-            padding-left: 10 px;
+            padding-left: 10px;  /* Remove the extra space here */
         }
+
 
         /* Add styles for the two-column layout */
         .receipt-heading .columns {
@@ -157,10 +152,10 @@
     {{-- {{ $data["name"] }} --}}
     <div class="container">
         <div class="navbar">
-            <span class="brand-letter brand-letter-a">A</span>
-            <span class="brand-letter brand-letter-f">F</span>
-            <span class="brand-letter brand-letter-r">R</span>
-            <span class="brand-letter brand-letter-s">S</span>
+            {{-- <div class="sidebar-brand-icon">
+                <img src="assets/img/psu logo.png" alt="Logo" height="40">
+            </div> --}}
+            <div class="brand-text">PSU ACC</div>
         </div>
         <div class="receipt-heading">
             <div>

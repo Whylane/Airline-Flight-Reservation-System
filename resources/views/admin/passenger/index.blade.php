@@ -20,6 +20,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if ($tickets->isEmpty())
+                    <tr>
+                        <td colspan="5">No passenger has been booked.</td>
+                    </tr>
+                    @else
                     @foreach ($tickets as $ticket)
                     @php
                     $seat_prices = [];
@@ -61,6 +66,7 @@
                         </td>
                     </tr>
                    @endforeach
+                   @endif
                 </tbody>
             </table>
         </div>

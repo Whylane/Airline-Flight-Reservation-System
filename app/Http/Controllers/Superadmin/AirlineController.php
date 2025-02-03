@@ -36,6 +36,7 @@ class AirlineController extends Controller
         ], [
             'airline.unique' => 'The airline has already been added. Please input another airline.',
             'flight_number.size' => 'The flight number prefix must be exactly 2 characters.',
+            'return_flight_number.size' => 'The return flight number prefix must be exactly 2 characters.',
         ]);
     
         $airlines = new Airline();
@@ -53,6 +54,7 @@ class AirlineController extends Controller
     
         $airlines->airline = $request->input('airline');
         $airlines->flight_number = $request->input('flight_number');
+        $airlines->return_flight_number = $request->input('return_flight_number');
     
         $airlines->save();
     
@@ -80,8 +82,8 @@ class AirlineController extends Controller
         }
 
         $airlines->airline = $request->input('airline');
-
         $airlines->flight_number = $request->input('flight_number');
+        $airlines->return_flight_number = $request->input('return_flight_number');
      
         $airlines->update();
         return redirect('superadmin/airline-lists')->with('success', 'Airline Updated Successfully');
